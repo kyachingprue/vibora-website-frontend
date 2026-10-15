@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+/* Class based dark mode: <html class="dark"> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-50: #f5f3ff;
+  --color-brand-100: #ede9fe;
+  --color-brand-400: #a78bfa;
+  --color-brand-500: #8b5cf6;
+  --color-brand-600: #7c3aed;
+  --color-brand-700: #6d28d9;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-sans);
+  @apply bg-neutral-50 text-black dark:bg-neutral-950 dark:text-white;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* SocialHub loading system: branded first-load screen + lightweight skeletons */
+.social-loader-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(139, 92, 246, .10), transparent 42%),
+    linear-gradient(145deg, #faf9ff 0%, #ffffff 52%, #fff7fc 100%);
+}
+.dark .social-loader-screen {
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(139, 92, 246, .18), transparent 42%),
+    linear-gradient(145deg, #09090f 0%, #11101a 52%, #130c17 100%);
+}
+.social-loader-orb {
+  position: absolute;
+  width: 17rem;
+  height: 17rem;
+  border-radius: 9999px;
+  filter: blur(2px);
+  opacity: .45;
+  animation: social-orb-float 5s ease-in-out infinite;
+}
+.social-loader-orb-one {
+  top: -8rem;
+  left: -6rem;
+  background: radial-gradient(circle, rgba(167, 139, 250, .34), transparent 70%);
+}
+.social-loader-orb-two {
+  right: -8rem;
+  bottom: -9rem;
+  background: radial-gradient(circle, rgba(244, 114, 182, .25), transparent 70%);
+  animation-delay: -2.5s;
+}
+.social-loader-logo {
+  position: relative;
+  display: grid;
+  width: 5.25rem;
+  height: 5.25rem;
+  place-items: center;
+  color: white;
+  border-radius: 1.7rem;
+  background: linear-gradient(135deg, #7c3aed, #a855f7 55%, #ec4899);
+  box-shadow: 0 18px 45px rgba(124, 58, 237, .28), inset 0 1px 0 rgba(255,255,255,.35);
+  animation: social-logo-breathe 1.8s ease-in-out infinite;
+}
+.social-loader-sparkle {
+  position: absolute;
+  top: -.45rem;
+  right: -.45rem;
+  display: grid;
+  width: 1.7rem;
+  height: 1.7rem;
+  place-items: center;
+  color: #7c3aed;
+  border: 3px solid white;
+  border-radius: 9999px;
+  background: #fff;
+}
+.social-loader-track {
+  width: 10rem;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: rgba(139, 92, 246, .14);
+}
+.social-loader-track span {
+  display: block;
+  width: 42%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7c3aed, #c084fc, #ec4899);
+  animation: social-loader-progress 1.25s ease-in-out infinite;
+}
+.social-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: .5rem;
+  background: #eeedf3;
+}
+.dark .social-skeleton { background: #262531; }
+.social-skeleton::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.72), transparent);
+  animation: social-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+.dark .social-skeleton::after {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+}
+@keyframes social-skeleton-shimmer {
+  100% { transform: translateX(100%); }
+}
+@keyframes social-loader-progress {
+  0% { transform: translateX(-115%); }
+  100% { transform: translateX(260%); }
+}
+@keyframes social-logo-breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.035); }
+}
+@keyframes social-orb-float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(10px, -12px, 0) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .social-loader-orb, .social-loader-logo, .social-loader-track span, .social-skeleton::after {
+    animation: none !important;
+  }
+}
